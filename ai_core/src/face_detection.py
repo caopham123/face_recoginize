@@ -4,7 +4,7 @@ import numpy as np
 from setting import FACE_MODEL_PATH
 
 
-class FaceDection():
+class FaceDetection():
     def __init__(self):
         self.model = FaceAnalysis(FACE_MODEL_PATH, providers=['CPUExecutionProvider'])
         self.model.prepare(ctx_id=0)
@@ -23,7 +23,7 @@ class FaceDection():
     
 if __name__ == "__main__":
     import cv2
-    face_detection = FaceDection()
+    face_detection = FaceDetection()
     image = cv2.imread("ai_core/pic/noo_phuoc_thinh_1.jpg")
     crop_img, embedding = face_detection.dectect_face(image)
     print(f"Embedding (512D): {len(embedding)}")
