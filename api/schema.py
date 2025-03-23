@@ -7,7 +7,7 @@ class Member_Register(BaseModel):
     name: str = Field(examples="test name")
     face: list = Field(examples=[])
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "id": "001",
             "email": "test@gmail.com",
             "name": "test name",

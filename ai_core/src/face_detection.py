@@ -1,7 +1,7 @@
 import insightface
 from insightface.app import FaceAnalysis
 import numpy as np
-from setting import FACE_MODEL_PATH
+from .setting import FACE_MODEL_PATH
 
 
 class FaceDetection():

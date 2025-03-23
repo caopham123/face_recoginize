@@ -1,5 +1,5 @@
-from src.face_detection import FaceDetection
-from src.face_identification import FaceIdentification
+from ai_core.src.face_detection import FaceDetection
+from ai_core.src.face_identification import FaceIdentification
 import pandas as pd
 
 class FaceRecognition():

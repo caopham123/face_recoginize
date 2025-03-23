@@ -1,20 +1,20 @@
-from face_detection import FaceDetection
-from setting import DB_FACE_PATH
+from .face_detection import FaceDetection
+from .setting import DB_FACE_PATH
 import pandas as pd
 
 class Trainer():
     def __init__(self):
         self.data = pd.read_json(DB_FACE_PATH)
-        self.ids = self.data['id'].to_numpy.tolist()
-        self.names = self.data['name'].to_numpy.tolist()
-        self.emails = self.data['email'].to_numpy.tolist()
-        self.faces = self.data['face'].to_numpy.tolist()
+        self.ids = self.data['id'].to_numpy().tolist()
+        self.names = self.data['name'].to_numpy().tolist()
+        self.emails = self.data['email'].to_numpy().tolist()
+        self.faces = self.data['face'].to_numpy().tolist()
         print("openned file")
 
     def register_member(self, target_id: str = None, target_name = None, target_email = None, target_face = None):
         ## Case: Don't pass the id
-        if target_id is None:
-            return False
+        # if target_id is None:
+        #     return False
         ## Case: Have specified member on DB
         ## Find loc and update other fields
         if target_id in self.ids:
@@ -45,6 +45,22 @@ class Trainer():
         })
         self.data.to_json(DB_FACE_PATH, indent=4, force_ascii=True)
         return True
+
+    def add_new(self, target_id: str = None, target_name = None, target_email = None, target_face = None):
+        self.ids.append(target_id)
+        self.emails.append(target_email)
+        self.names.append(target_name)
+        self.faces.append(target_face)
+    
+        self.data = pd.DataFrame({
+            "id": self.ids,
+            "email": self.emails,
+            "name": self.names,
+            "face": self.faces
+        })
+        self.data.to_json(DB_FACE_PATH, indent=4, force_ascii=True)
+        return True
+    
 
     def delete_member(self, target_id: str = None):
          ## Case: Don't pass the id
