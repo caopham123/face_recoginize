@@ -2,12 +2,14 @@
 __pycache__/
 *.py[cod]
 *$py.class
-ai_core/dataset/
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
+ai_core/pic/*
+ai_core/dataset/*.json
+ai_core/models/*
 build/
 develop-eggs/
 dist/
