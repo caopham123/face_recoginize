@@ -20,3 +20,16 @@ def add_user(target_id: str = None, target_email = None, target_name = None, tar
         "data": message
     }
     return JSONResponse(status_code=status.HTTP_200_OK, content=response)
+
+def del_user(target_id: str = None):
+    global face_recognition, trainer
+
+    if target_id is None: return False
+
+    msg = trainer.delete_member(target_id)
+    face_recognition = FaceRecognition()
+    response = {
+        "status_code": status.HTTP_200_OK,
+        "content": msg
+    } 
+    return JSONResponse(status_code=status.HTTP_200_OK, content={"response": response})
