@@ -14,6 +14,7 @@ class FaceIdentification():
         self.names = self.db["name"].to_numpy().tolist()
         self.emails = self.db["email"].to_numpy().tolist()
         self.faces = self.db["face"].to_numpy().tolist()
+        
     def get_result(self, target_embedding):
         old_thresh = 0
         index = -1
