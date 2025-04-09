@@ -26,7 +26,7 @@ class FaceIdentification():
                 index = idx
         
         if index == -1:
-            return {"id": None, "email": None, "name": None}
+            return {"id": None, "email": None, "name": None, "time_checking": None}
         now = datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S")
-        return {"id": self.ids[index], "email":self.emails[index], "name": self.names[index], "time": now}
+        return {"id": self.ids[index], "email":self.emails[index], "name": self.names[index], "time_checking": now}
         

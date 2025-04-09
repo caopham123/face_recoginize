@@ -24,7 +24,7 @@ async def register_api(item: Member_Register):
 
 @router.put("/update_member")
 async def update_api(item: Member_Update):
-    result = register_member(item.id, item.email, item.name, item.img)
+    result = register_member(item.id, item.email, item.name, item.image)
     if result:
         return JSONResponse(status_code=status.HTTP_200_OK, content={"msg": "success update"})
     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"msg": "failed update"})

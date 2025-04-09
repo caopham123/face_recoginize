@@ -5,26 +5,26 @@ class Member_Register(BaseModel):
     id: int = Field(examples=0)
     email: str = Field(examples="test@gmail.com")
     name: str = Field(examples="test name")
-    img: str = None
+    image: str = None
     class Config:
         json_schema_extra = {
             "id": 0,
             "email": "test@gmail.com",
             "name": "test name",
-            "img": "base64"
+            "image": "base64"
         }
 
 class Member_Update(BaseModel):
     id: int = Field(examples=0)
     email: Optional[str] = None
     name: Optional[str] = None
-    img: Optional[str] = None
+    image: Optional[str] = None
     class Config:
         json_schema_extra = {
             "id": 0,
             "email": "test@gmail.com",
             "name": "test name",
-            "img": "base64"
+            "image": "base64"
         }
 
 class Member_Delete(BaseModel):

@@ -7,11 +7,11 @@ class CheckingMember():
         self.df = pd.read_json(DB_RESULT_PATH)
         self.emails = self.df["email"].to_numpy().tolist()
         self.names = self.df["name"].to_numpy().tolist()
-        self.times = self.df["time"].to_numpy().tolist()
+        self.times = self.df["time_checking"].to_numpy().tolist() 
         print("Opened result file")
 
     def check_member(self, target_email: str, target_time, target_name):
-        ## Case: Don't pass the id
+        ## Case: Not found email
         if target_email is None:
             return False
         
@@ -25,9 +25,9 @@ class CheckingMember():
         self.data = pd.DataFrame({
             "email": self.emails,
             "name": self.names,
-            "time": self.times
+            "time_checking": self.times
         })
         self.data.to_json(DB_RESULT_PATH, indent=4, force_ascii=True)
-        return True   
+        return True  
 if __name__ == "__main__":
     obj1 = CheckingMember()
