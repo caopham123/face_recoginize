@@ -38,17 +38,32 @@ async def ping():
 async def register_api(item: Member_Register):
     image = stringToRGB(item.image)
     result = register_member(item.id, item.email, item.name, image)
-    if result:
-        return JSONResponse(status_code=status.HTTP_200_OK, content={"msg": "success register"})
-    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"msg": "failed register"})
+    if result is False:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            content={"msg": "Invalid input image. Not found any face in image!"})
+
+    result = {"id": item.id, "email":item.email, "name":item.name}
+    return JSONResponse(
+            status_code=status.HTTP_200_OK, 
+            content= result
+        )
+
 
 @router.put("/update_member")
 async def update_api(
-    item: Member_Update,
-    _: str = Depends(verify_client)):
+    item: Member_Update, _: str = Depends(verify_client)):
     result = register_member(item.id, item.email, item.name, item.image)
+    if result is False:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            content={"msg": "Invalid input image. Not found any face in image!"})
     if result:
-        return JSONResponse(status_code=status.HTTP_200_OK, content={"msg": "success update"})
+        result = {"id": item.id, "email":item.email, "name":item.name}
+        return JSONResponse(
+            status_code=status.HTTP_200_OK, 
+            content= result
+        )
     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"msg": "failed update"})
 
 @router.delete("/delete_member")
@@ -64,7 +79,12 @@ async def check_user_api(
     _: str = Depends(verify_client)
 ):
     image = stringToRGB(item.image)
-    return check_user(image)
+    if image is not None:
+        return check_user(image)
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content= {"msg": "Invalid image (base64)! Please check it again!"}
+    )
 
 @router.post("/check_image")
 async def check_user_api(item: Image):

@@ -23,8 +23,9 @@ class Trainer():
             self.emails[index] = target_email if target_email is not None else self.emails[index]
             self.names[index] = target_name if target_name is not None else self.names[index]
             self.faces[index] = target_face if target_face is not None else self.faces[index]
-        ## Case: Not found Id on DB ==> Create a new
-        else:
+        
+        ## Case: Not found Id on DB ==> Create a new record
+        if target_id not in self.ids:
             if target_email is None:
                 return False
             if target_name is None:
