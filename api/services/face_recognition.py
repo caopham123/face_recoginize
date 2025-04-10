@@ -31,12 +31,7 @@ def del_user(target_id):
     global face_recognition, trainer
 
     msg = trainer.delete_member(target_id)
-    face_recognition = FaceRecognition()
-    response = {
-        "status_code": status.HTTP_200_OK,
-        "content": msg
-    } 
-    return JSONResponse(status_code=status.HTTP_200_OK, content={"response": response})
+    return msg
 
 def check_image(image):
     crop_face, embedding = face_detection.dectect_face(image)
@@ -52,8 +47,8 @@ def check_image(image):
 
 def check_user(image):
     score_face_spoofing = check_facial_spoofing(image)
-    print(f"\n=========>score {score_face_spoofing}\n\n")
-    if score_face_spoofing < 0.5 or score_face_spoofing is None:
+    print(f"=========>score {score_face_spoofing}\n")
+    if score_face_spoofing < 0.4 or score_face_spoofing is None:
         return JSONResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content= "Detected facial spoofing"

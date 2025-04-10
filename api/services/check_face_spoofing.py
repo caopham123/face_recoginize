@@ -15,7 +15,7 @@ from ai_core.lib.cv2_transform import transforms
 
 project_root = Path(__file__).resolve().parent.parent.parent.parent  # Đi lên 3 cấp từ dic1/sub1/abc.py
 sys.path.append(str(project_root))
-from ai_core.lib.nets.utils import get_model
+from ai_core.lib.nets.utils import get_model, load_resume
 
 from api.helpers.commons import stringToRGB
 
@@ -29,7 +29,7 @@ def check_facial_spoofing(image_path):
     arch = "swin_v2_b"
 
     input_size = 224
-    resume = "models/face_swin_v2_base.pth"
+    resume = "../../ai_core/models/face_swin_v2_base.pth"
     transforms1 = transforms.Compose([
             transforms.Resize(size=(input_size, input_size)),
             transforms.ColorTrans(mode=0), # BGR to RGB
@@ -50,7 +50,7 @@ def check_facial_spoofing(image_path):
     logging.info("=> creating model '{}'".format(arch))
     arch = arch
     model = get_model(arch, 2)
-
+    load_resume(resume, model, None)
     # model.cuda()
     # model = torch.nn.DataParallel(model, device_ids=[])
 

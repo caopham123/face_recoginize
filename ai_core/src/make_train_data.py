@@ -52,7 +52,9 @@ class Trainer():
             return False
         ## Case: Have specified member on DB
         ## Find loc and delete other fields
-        elif target_id in self.ids:
+        if target_id not in self.ids:
+            return False
+        if target_id in self.ids:
             index = self.ids.index(target_id)
             ## Delete other fields
             self.ids.pop(index)
@@ -67,8 +69,8 @@ class Trainer():
                 "name": self.names,
                 "face": self.faces
             })
-        self.data.to_json(DB_FACE_PATH, indent=4, force_ascii=True)
-        return True
+            self.data.to_json(DB_FACE_PATH, indent=4, force_ascii=True)
+            return True
     
 if __name__ == "main":
     import cv2

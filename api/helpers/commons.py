@@ -9,6 +9,9 @@ def stringToRGB(base64_string):
         im_bytes = base64.b64decode(base64_string)
         im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
         img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+        ###
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.resize(img, (224, 224))
         return img
     except ValueError as e:
         print("Cannot convert to RGB: {e}")
