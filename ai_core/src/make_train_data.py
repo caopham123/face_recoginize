@@ -71,15 +71,10 @@ class Trainer():
             })
             self.data.to_json(DB_FACE_PATH, indent=4, force_ascii=True)
             return True
-    
-if __name__ == "main":
-    import cv2
-    trainer = Trainer()
-    face_detection = FaceDetection()
-    image = cv2.imread("ai_core/pic/noo_phuoc_thinh_1.jpg")
-    _, embedding = face_detection.dectect_face(image)
-    
-    # trainer.register_member(
-    #     3, "test01", "test01@gmail.com", embedding
-    # )
-    # trainer.delete_member(5)
+
+# if __name__ == "main":
+#     import cv2
+#     trainer = Trainer()
+#     face_detection = FaceDetection()
+#     image = cv2.imread("ai_core/pic/noo_phuoc_thinh_1.jpg")
+#     _, embedding = face_detection.dectect_face(image)

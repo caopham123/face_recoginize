@@ -2,9 +2,10 @@ from ai_core.src.face_recognize import FaceRecognition
 from ai_core.src.face_recognize import FaceDetection
 from ai_core.src.make_train_data import Trainer
 from ai_core.src.checking_member import CheckingMember
+from ai_core.src.check_face_spoofing import check_facial_spoofing
+from ai_core.src.setting import FACIAL_SPOOFING_THRESHOLD
 from fastapi.responses import JSONResponse
 from fastapi import status
-from .check_face_spoofing import check_facial_spoofing
 
 
 face_recognition = FaceRecognition()
@@ -48,7 +49,7 @@ def check_image(image):
 def check_user(image):
     score_face_spoofing = check_facial_spoofing(image)
     print(f"=========>score {score_face_spoofing}\n")
-    if score_face_spoofing < 0.4 or score_face_spoofing is None:
+    if score_face_spoofing < FACIAL_SPOOFING_THRESHOLD or score_face_spoofing is None:
         return JSONResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content= "Detected facial spoofing"
@@ -57,7 +58,7 @@ def check_user(image):
 
     if result is None: 
         return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_400_BAD_REQUEST,
             content= "Not found member"
         )
     
@@ -66,16 +67,7 @@ def check_user(image):
     target_time = result['time_checking']
     ## Trainer
     print(f"service check user: {target_email, target_name, target_time}")
-    rs_checking = checking_Member.check_member(target_email=target_email, target_name=target_name, target_time=target_time)
-    if rs_checking is False:
-        rs_checking = "Not found member"
-    else: 
-        rs_checking = {
-            "email": target_email, 
-            "name": target_name,
-            "time_checking": target_time
-        }
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-            content= rs_checking
+            content= result
         )
