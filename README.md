@@ -32,6 +32,10 @@ This folder contains Face Detection and Face Identification components
   5. **check_face_spoofing**
 Using the pre-trained weights of Swin Transformer V2 that are trained to distinguish between real and spoofing faces.
 
+### api Component
 The **api/helpers/commons.py** stores all support functions (convert from image to string and reserve)
+
 The **api/middlewares/global_catch.py** used to catch exceptions (HTTP 500 Internal server err)
+
 The **api/services/face_recognition.py** contains register (or update), remove function. And check_user functions used to check facial spoofing and (if not) recognize face (record check-in)
+
