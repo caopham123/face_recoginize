@@ -1,41 +1,31 @@
 # Face Recognition Intergated Anti-Spoofing System
 ## Quick Installation
-- On Command Line tab of root folder, type command: python -m venv .venv
-- Then, type: .venv\Scripts\activate
-- Finally, type: pip install -r requirements.txt
-## Description
-There are 2 main objectives, which include: Face Recognition and Facial Anti-Spoofing.
+- On Command Line tab of root folder, type command: **python -m venv .venv**
+- Then, type: **.venv\Scripts\activate**
+- Finally, type: **pip install -r requirements.txt**
 
-This project consists of 2 key components: **ai_core** and **api**.
-### ai_core Components
-The **ai_core/dataset** folder stores faces of users on the system and user’s information after recognition(.json file).
+## Functions:
 
-The **ai_core/src** folder is a key component, include:
+### Register new users 
+The server takes information from a new user which consists of username, email, user id, and an image (converted to string base64).
+In case of registering or updating an image of an existing user, the server will check whether the input image is valid. 
+After, the face detection process begins by the pre-trained model. This process takes a string image, and returns the bounding box of the face (if it exists) and a 512D vector embedding that stores features of each face. If not, return None. 
+If the field is valid, the server verifies whether information of an assigned user is available on the database. In case of unavailable information, the server will store it. If it not, update and store it 
 
-  1. **setting.py**
-This defines all of the settings including database paths, threshold value, model path…
+### Delete information of assigned users
+This function takes the user id. Then, checking this value whether it is available on the database. In case of existing, it will delete all of the user's information.
 
-  2. **face_detection.py**
-Use RetinaFace backbone to detect and select the biggest face on frame (or image)
-Then, normalize this face to a 512D-vector embedding.
-Each face has a vector embedding that stores features of each face.
+### Detect the valid input image
+This function takes the image (converted to string). First, the pre-trained model locates faces on the image,  selects the biggest face and 5 landmarks on one. This model returns a bounding box and a 512D vector embedding.
+If the return either a bounding box is None or a vector embedding is None, this function alerts the image is invalid.
 
-  3. **face_identification**
-The mission of this is to record information of users once checked.
-First, creating a target vector embedding per user. 
-Second, calculating different from the target vector embedding to each vector stored in db
-Third, check the value of the return. If it is higher or equal to the threshold, record user’s information (name, id, email, date time)
+### Check-in users
+First, the server checks whether input is **facial spoofing**.
+Second, when the input is valid (real face images), the model will begin detecting (**Detect the valid input image**)
+Third, when the model returns a vector embedding, the server will take this return vector, and compare it with each saved vector stored on the database by using cosine_similarity algorithm. If the return cosine is higher than the threshold value (equal is 0.5) and it is the highest value, the server will record information of the user (whose saved vector equals the return vector) and current time.
 
-  4. **face_recognize**
-This folder contains Face Detection and Face Identification components
-
-  5. **check_face_spoofing**
-Using the pre-trained weights of Swin Transformer V2 that are trained to distinguish between real and spoofing faces.
-
-### api Component
-The **api/helpers/commons.py** stores all support functions (convert from image to string and reserve)
-
-The **api/middlewares/global_catch.py** used to catch exceptions (HTTP 500 Internal server err)
-
-The **api/services/face_recognition.py** contains register (or update), remove function. And check_user functions used to check facial spoofing and (if not) recognize face (record check-in)
+### Check facial spoofing
+This function takes an input image (converted to string) and loads the  pre-trained model (architecture is swin_v2_b). 
+Then, an input image is resized to a 224x224 image, and converted from BGR to RGB color. After that, normalize the image by using Swin Transformer V2. The output of this process is an array format.
+Finally, apply softmax to get probabilities and return the result.
 
