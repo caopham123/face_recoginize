@@ -1,11 +1,31 @@
 # Face Recognition Intergated Anti-Spoofing System
 ## Quick Installation
+1. Set up the enviroment
 - On Command Line tab of root folder, type command: **python -m venv .venv**
 - Then, type: **.venv\Scripts\activate**
 - Finally, type: **pip install -r requirements.txt**
+2. Download the pre-trained model for Facial Anti-spoofing:
+- At the **ai_core** folder, make a new **model** folder
+- Download the **face_swin_v2_face** [(Get here)](https://drive.google.com/file/d/1E4UD8UK_KzjhpAvR6hYInlteOEaxDZbZ/view)
+3. Upload images for running:
+- At the **ai_core** folder, make a new **pic** folder to contain images
+4. Check facial spoofing (without GPU)
+- Usually, this task need GPU to execute. But I don't have GPU, following the below way:
+- On **ai_core/src/check_face_spoofing.py** file, replace 3 comment lines (line 54-58) to line 59
+ ![image](https://github.com/user-attachments/assets/30b6944e-365b-4aa2-8e7f-4ed0e520fbea)
+5. Run uvicorn
+- By default, we type this command: **uvicorn main:app**
+- If you customize port or host:
+![image](https://github.com/user-attachments/assets/91f2a499-c4f4-4faf-aa1c-72fb7a09dd99)
+- After that, run: **uvicorn main:app --host 0.0.0.0 --port 5050**
 
-## Functions:
+## Work flow:
+![image](https://github.com/user-attachments/assets/2fb4067e-6af2-4060-b3d8-1cc6a9731d81)
 
+## Architecture:
+![image](https://github.com/user-attachments/assets/a41fd3f7-f94f-4910-a1f5-10a8ebbbbdfe)
+
+## Use Case:
 ### Register new users 
 The server takes information from a new user which consists of username, email, user id, and an image (converted to string base64).
 In case of registering or updating an image of an existing user, the server will check whether the input image is valid. 
