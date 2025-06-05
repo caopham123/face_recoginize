@@ -11,16 +11,20 @@
 - At the **ai_core** folder, make a new **pic** folder to contain images
 4. Check facial spoofing (without GPU)
 - Usually, this task need GPU to execute. But I don't have GPU, following the below way:
-- On **ai_core/src/check_face_spoofing.py** file, replace 3 comment lines (line 54-58) to line 59
+  
+On **ai_core/src/check_face_spoofing.py** file, replace 3 comment lines (line 54-58) to line 59
+ 
+ 
  ![image](https://github.com/user-attachments/assets/30b6944e-365b-4aa2-8e7f-4ed0e520fbea)
 5. Run uvicorn
 - By default, we type this command: **uvicorn main:app**
 - If you customize port or host:
+
 ![image](https://github.com/user-attachments/assets/91f2a499-c4f4-4faf-aa1c-72fb7a09dd99)
 - After that, run: **uvicorn main:app --host 0.0.0.0 --port 5050**
 
 ## Work flow:
-![image](https://github.com/user-attachments/assets/2fb4067e-6af2-4060-b3d8-1cc6a9731d81)
+![image](https://github.com/user-attachments/assets/ab548a15-aed7-489b-ae7b-b7f108ff88d6)
 
 ## Architecture:
 ![image](https://github.com/user-attachments/assets/a41fd3f7-f94f-4910-a1f5-10a8ebbbbdfe)
