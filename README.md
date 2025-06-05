@@ -16,6 +16,7 @@ On **ai_core/src/check_face_spoofing.py** file, replace 3 comment lines (line 54
  
  
  ![image](https://github.com/user-attachments/assets/30b6944e-365b-4aa2-8e7f-4ed0e520fbea)
+
 5. Run uvicorn
 - By default, we type this command: **uvicorn main:app**
 - If you customize port or host:
