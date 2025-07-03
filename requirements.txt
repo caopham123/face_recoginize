@@ -12,3 +12,4 @@ tqdm
 joblib
 scikit-image
 insightface
+psycopg2
