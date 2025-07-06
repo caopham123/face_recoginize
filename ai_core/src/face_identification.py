@@ -7,7 +7,7 @@ import datetime
 def cosine_similarity(emb1, emb2):
     return np.dot(emb1, emb2) / (norm(emb1) * norm(emb2))
 
-class FaceIdentification():
+class FaceIdentification:
     def __init__(self):
         self.db = pd.read_json(DB_FACE_PATH)
         self.ids = self.db["id"].to_numpy().tolist()

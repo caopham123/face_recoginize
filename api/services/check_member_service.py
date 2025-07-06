@@ -1,5 +1,5 @@
-from ai_core.src.face_recognize import FaceRecognition
-from ai_core.src.face_recognize import FaceDetection
+from src.face_recognition import FaceRecognition
+from src.face_recognition import FaceDetection
 from ai_core.src.make_train_data import Trainer
 from ai_core.src.check_face_spoofing import check_facial_spoofing
 from ai_core.src.setting import FACIAL_SPOOFING_THRESHOLD

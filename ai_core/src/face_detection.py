@@ -4,7 +4,7 @@ import numpy as np
 from .setting import FACE_MODEL_PATH
 
 
-class FaceDetection():
+class FaceDetection:
     def __init__(self):
         self.model = FaceAnalysis(FACE_MODEL_PATH, providers=['CPUExecutionProvider'])
         self.model.prepare(ctx_id=0)

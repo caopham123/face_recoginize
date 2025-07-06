@@ -2,7 +2,7 @@ from fastapi.responses import JSONResponse
 from fastapi import status, APIRouter
 from api.schema import Member_Register, Member_Update, Member_Delete, Image
 from api.helpers.commons import stringToRGB
-from api.services.face_recognition import register_member, del_user, check_image, check_user
+from api.services.check_member_service import register_member, del_user, check_image, check_user
 from api.config.valid_credential import VALID_CLIENTS
 from fastapi import Header, HTTPException, Depends
 import logging

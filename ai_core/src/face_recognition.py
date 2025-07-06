@@ -2,7 +2,7 @@ from ai_core.src.face_detection import FaceDetection
 from ai_core.src.face_identification import FaceIdentification
 import pandas as pd
 
-class FaceRecognition():
+class FaceRecognition:
     def __init__(self):
         self.detection = FaceDetection()
         self.identification = FaceIdentification()

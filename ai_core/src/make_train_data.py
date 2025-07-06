@@ -2,7 +2,7 @@ from .face_detection import FaceDetection
 from .setting import DB_FACE_PATH
 import pandas as pd
 
-class Trainer():
+class Trainer:
     def __init__(self):
         self.data = pd.read_json(DB_FACE_PATH)
         self.ids = self.data['id'].to_numpy().tolist()
