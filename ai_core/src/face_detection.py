@@ -11,6 +11,7 @@ class FaceDetection:
 
     def dectect_face(self, image: np.ndarray):
         ## Detect and retrive faces
+        
         faces = self.model.get(image)
 
         if len(faces) == 0:
