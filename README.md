@@ -28,7 +28,7 @@ On **ai_core/src/check_face_spoofing.py** file, replace 3 comment lines (line 54
 ![image](https://github.com/user-attachments/assets/ab548a15-aed7-489b-ae7b-b7f108ff88d6)
 
 ## Architecture:
-![image](https://github.com/user-attachments/assets/a41fd3f7-f94f-4910-a1f5-10a8ebbbbdfe)
+![image](https://github.com/user-attachments/assets/21798cb6-4d93-4b96-81bf-641b6dae270f)
 
 ## Use Case:
 ### Register new users 
