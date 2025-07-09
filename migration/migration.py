@@ -18,11 +18,11 @@ try:
                 """)
     print("Created table member successfully!")
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS checking_member( 
-                    id INT PRIMARY KEY,
+    cur.execute("""CREATE TABLE IF NOT EXISTS checking_event( 
+                    id INT NOT NULL,
                     full_name TEXT NOT NULL,
                     email TEXT NOT NULL,
-                    time_checking TIMESTAMP );
+                    time_checking TIMESTAMP WITH TIME ZONE DEFAULT (NOW()));
                 """)
     print("Created table check_member successfully!")
     

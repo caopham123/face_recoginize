@@ -25,7 +25,7 @@ class QueryMember:
             row = cursor.fetchone()
             cursor.close()
             conn.close()
-            if row is not None:
+            if row is not None: # Found id
                 return True
             return False
         except Exception as e: raise e
@@ -64,8 +64,7 @@ class QueryMember:
 
     def update_member(self, id: int, full_name=None, email=None, face:np.ndarray=None):
         try:
-
-            face_embedding = None  # Initialize as None
+            face_embedding = None
             conn = self.get_db_connection()
             cursor = conn.cursor()
 
@@ -102,14 +101,29 @@ class QueryMember:
         except Exception as e:
             raise e
    
-    def check_member(self,id, full_name, email, time_checking):
-        try:
+    def delete_member(self, id):
+        try: 
             conn = self.get_db_connection()
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO member_checking (id, full_name, email, time_checking) VALUES
-                (%s, %s, %s, %s)
-                """, (id, full_name, email, time_checking))
+                DELETE FROM member WHERE id=%s;
+                """, (id,))
+            conn.commit()
+            cursor.close()
+            conn.close()
+        except Exception as e:
+            raise e
+
+    def check_member(self, id, full_name, email):
+        try:
+            if id is None:
+                return False
+            conn = self.get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO checking_event (id, full_name, email) VALUES
+                (%s, %s, %s)
+                """, (id, full_name, email))
             conn.commit()
             cursor.close()
             conn.close()
@@ -132,26 +146,31 @@ class QueryMember:
             conn.close()
         except Exception as e:
             raise e
-        
-    def delete_member(self, id):
+
+    def get_checking_event_list(self):
         try: 
             conn = self.get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute("""
-                DELETE FROM member WHERE id=%s;
-                """, (id,))
-            conn.commit()
+            cursor= conn.cursor()
+            cursor.execute("SELECT * FROM checking_event")
+            rows = cursor.fetchall()
+
+            for row in rows:
+                print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- time {str(row[3])}")
             cursor.close()
             conn.close()
         except Exception as e:
             raise e
 
+    
 if __name__ == "__main__":
     dbConn = QueryMember()
     dbConn.get_db_connection()
-    # dbConn.get_member_list()
+    dbConn.get_member_list()
+    
 
     # dbConn.create_member('member01', 'member01@gmail.com')
     # dbConn.delete_member(1)
     # dbConn.delete_member(4)
-    dbConn.get_member_list()
+
+    # dbConn.check_member(3, "abc", "abc")
+    # dbConn.get_checking_event_list()
