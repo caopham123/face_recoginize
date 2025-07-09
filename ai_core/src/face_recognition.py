@@ -11,7 +11,8 @@ class FaceRecognition:
     def recognize_face(self, image):
         _, embedding = self.detection.dectect_face(image)
         if embedding is None:
+            print("Not found embedding")
             return None
-        rs = self.identification.get_result(target_embedding= embedding)
-        return rs
+        result = self.identification.get_result(embedding)
+        return result
         
