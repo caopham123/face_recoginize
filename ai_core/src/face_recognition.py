@@ -7,7 +7,6 @@ class FaceRecognition:
         self.detection = FaceDetection()
         self.identification = FaceIdentification()
 
-    ## Pass a image to compare this image with image existed in dataset
     def recognize_face(self, image):
         _, embedding = self.detection.dectect_face(image)
         if embedding is None:

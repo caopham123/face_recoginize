@@ -45,9 +45,7 @@ class QueryMember:
 
     def create_member(self, full_name, email, face: np.ndarray):
         try:
-            #======== Convert numpy.ndarray into list
             vector_embedding = face.tolist()
-            #======== Execute query
             conn = self.get_db_connection()
             cursor = conn.cursor()
             cursor.execute("""
@@ -81,11 +79,10 @@ class QueryMember:
                 query_params.append(email)
                 
             if face is not None:
-                face_embedding = face.tolist()  # Convert numpy array to list if needed
+                face_embedding = face.tolist()
                 updates.append("face_embedding = %s")
                 query_params.append(face_embedding)
 
-            # Check if we have any fields to update
             if not updates:
                 raise ValueError("No fields to update")
 
@@ -93,9 +90,8 @@ class QueryMember:
             query_string += " WHERE id = %s"
             query_params.append(id)
 
-            # Execute the query
             cursor.execute(query_string, query_params)
-            conn.commit()  # Don't forget to commit!
+            conn.commit()
             cursor.close()
             conn.close()
         except Exception as e:
@@ -135,13 +131,13 @@ class QueryMember:
             conn = self.get_db_connection()
             cursor= conn.cursor()
             cursor.execute("SELECT id, full_name, email, face_embedding FROM member")
-            rows = cursor.fetchall()
+            cursor.fetchall()
 
-            for row in rows:
-                if row[3] is not None:
-                    print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- face_embbedding {True}")
-                else:
-                    print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- face_embedding {False}")
+            # for row in rows:
+            #     if row[3] is not None:
+            #         print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- face_embbedding {True}")
+            #     else:
+            #         print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- face_embedding {False}")
             cursor.close()
             conn.close()
         except Exception as e:
@@ -152,25 +148,11 @@ class QueryMember:
             conn = self.get_db_connection()
             cursor= conn.cursor()
             cursor.execute("SELECT * FROM checking_event")
-            rows = cursor.fetchall()
+            cursor.fetchall()
 
-            for row in rows:
-                print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- time {str(row[3])}")
+            # for row in rows:
+                # print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- time {str(row[3])}")
             cursor.close()
             conn.close()
         except Exception as e:
             raise e
-
-    
-if __name__ == "__main__":
-    dbConn = QueryMember()
-    dbConn.get_db_connection()
-    dbConn.get_member_list()
-    
-
-    # dbConn.create_member('member01', 'member01@gmail.com')
-    # dbConn.delete_member(1)
-    # dbConn.delete_member(4)
-
-    # dbConn.check_member(3, "abc", "abc")
-    # dbConn.get_checking_event_list()

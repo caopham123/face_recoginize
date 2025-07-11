@@ -24,7 +24,7 @@ def register_member(email = None, name = None, image = None):
 
         if trainer.register_member(name, email, embedding):
             return JSONResponse(status_code=status.HTTP_200_OK
-                                ,content={"message": "Success"} )
+                                ,content={"message": "Register Successfully"} )
     
     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST
                             ,content={"message": "Invalid image base64"} )
@@ -38,7 +38,7 @@ def modify_member(id: int, email = None, name = None, image = None):
         _, embedding = face_recognition.detection.dectect_face(image)
     if trainer.update_member(id, email, name, embedding):
         return JSONResponse(status_code=status.HTTP_200_OK,
-                                content={"message": "Success!"})
+                                content={"message": "Modify Successfully!"})
 
 def del_user(id):
     if not query_member.validate_id(id): 
@@ -46,10 +46,10 @@ def del_user(id):
                             content={"message": "Id doesn't exists!"})
     if trainer.delete_member(id):
         return JSONResponse(status_code=status.HTTP_200_OK,
-                                content={"message": "Success!"})
+                                content={"message": "Remove Successfully!"})
 
 def check_user(image):
-    # ======== CHECK FICAL-SPOOFING
+    # ======== CHECK FICAL-SPOOFING ============
     score_face_spoofing = check_facial_spoofing(image)
     print(f"=========>score {score_face_spoofing}\n")
     if score_face_spoofing is None or score_face_spoofing < FACIAL_SPOOFING_THRESHOLD:
@@ -57,9 +57,8 @@ def check_user(image):
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content= {"message":"Detected facial spoofing"}
             )
-    # ========= FACE RECOGNITION
+    # ========= FACE RECOGNITION =============
     result = face_recognition.recognize_face(image)
-
     if result is None: 
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -68,13 +67,11 @@ def check_user(image):
     id = result['id']
     email = result['email']
     name = result['full_name']
-    # time = result['time_checking']
 
-    print(f"service check user: id:{id} email:{email} name:{name}")
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-            content= {"message":"Success"}
-        )
+        content= {"id":id, "email": email, "name":name}
+    )
 
 def check_image(image):
         crop_face, embedding = face_recognition.detection.dectect_face(image)

@@ -1,22 +1,9 @@
 import cv2
 import torch
-
-import torch.nn.parallel
-
-# import sys
-# from pathlib import Path
-
-# # Thêm thư mục gốc (project_root) vào sys.path
-# project_root = Path(__file__).resolve().parent.parent.parent  # Đi lên 3 cấp từ dic1/sub1/abc.py
-# sys.path.append(str(project_root))
-
 from ai_core.lib.cv2_transform import transforms
-
-# project_root = Path(__file__).resolve().parent.parent.parent.parent  # Đi lên 3 cấp từ dic1/sub1/abc.py
-# sys.path.append(str(project_root))
 from ai_core.lib.nets.utils import get_model, load_resume
-
 from ai_core.src.setting import ARCH, RESUME_PATH, INPUT_SIZE_IMAGE
+
 import logging
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
@@ -36,12 +23,10 @@ def check_facial_spoofing(image_string):
         ])
     transforms2 = A.Compose([
         A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)), # RGB [0,255] input, RGB normalize output
-        # A.Normalize(mean=(0, 0, 0), std=(1, 1, 1)), # RGB [0,255] input, RGB normalize output
         ToTensorV2(),
     ])
 
     ## Convert base64 to color image
-    # image = cv2.imread(image_path)
     image = image_string
     image = transforms1(image)
     image = transforms2(image=image)
@@ -64,5 +49,4 @@ def check_facial_spoofing(image_string):
 
         scores = torch.softmax(outputs, dim=1).data.cpu().numpy()[:,1]
         print(outputs)
-        # print(f"Reality score: {round(scores[0],3)}")
         return scores[0]
