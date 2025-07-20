@@ -39,7 +39,22 @@ def modify_member(id: int, email = None, name = None, image = None):
     if trainer.update_member(id, email, name, embedding):
         return JSONResponse(status_code=status.HTTP_200_OK,
                                 content={"message": "Modify Successfully!"})
+def search_member_by_name(name: str=None):
+    if name is None:
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
+                            content={"message": "Invalid input name!"})
+    result= trainer.search_member_by_name(name)
+    return JSONResponse(status_code=status.HTTP_200_OK,
+                        content={"message": result})
 
+def search_member_by_email(email: str=None):
+    if email is None:
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
+                            content={"message": "Invalid input email!"})
+    result= trainer.search_member_by_email(email)
+    return JSONResponse(status_code=status.HTTP_200_OK,
+                        content={"message": result})
+    
 def del_user(id):
     if not query_member.validate_id(id): 
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,

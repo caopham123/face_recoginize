@@ -2,7 +2,7 @@ from fastapi.responses import JSONResponse
 from fastapi import status, APIRouter
 from api.schema import MemberRegister, MemberUpdate, Image
 from api.helpers.commons import stringToRGB
-from api.services.check_member_service import register_member, modify_member, del_user, check_image, check_user
+from api.services.check_member_service import *
 from api.config.valid_credential import VALID_CLIENTS
 from fastapi import Header, HTTPException, Depends
 
@@ -35,6 +35,15 @@ async def update_api(id: int, item: MemberUpdate):
 async def delete_api(id: int):
     result = del_user(id)
     return result
+
+@router.get("/member/{name}")
+async def get_by_name(name:str):
+    return search_member_by_name(name)
+
+@router.get("/member/{email}")
+async def get_by_email(email:str):
+    return search_member_by_email(email)
+
 
 @router.post("/check_user")
 async def check_user_api(

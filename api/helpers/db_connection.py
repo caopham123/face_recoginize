@@ -60,7 +60,7 @@ class QueryMember:
         except Exception as e:
             raise e
 
-    def update_member(self, id: int, full_name=None, email=None, face:np.ndarray=None):
+    def update_member(self, id: int, email=None, full_name=None, face:np.ndarray=None):
         try:
             face_embedding = None
             conn = self.get_db_connection()
@@ -69,14 +69,14 @@ class QueryMember:
             query_string = "UPDATE member SET "
             updates = []
             query_params = []
-
-            if full_name is not None:
-                updates.append("full_name = %s")
-                query_params.append(full_name)
                 
             if email is not None:
                 updates.append("email = %s")
                 query_params.append(email)
+
+            if full_name is not None:
+                updates.append("full_name = %s")
+                query_params.append(full_name)
                 
             if face is not None:
                 face_embedding = face.tolist()
@@ -110,6 +110,48 @@ class QueryMember:
         except Exception as e:
             raise e
 
+    def search_by_name(self, name: str):
+        try:
+            conn= self.get_db_connection()
+            cursor= conn.cursor()
+            cursor.execute("""SELECT id, full_name, email FROM member WHERE full_name 
+                           LIKE %s;""", (f"%{name}%",))
+            result= cursor.fetchall()
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            if result is None:
+                return None
+            member_lst= []
+            for row in result:
+                member_lst.append({"id":row[0], "name":row[1], "email":row[2]})
+            return member_lst
+        except Exception as e:
+            raise e
+
+    def search_by_email(self, email: str):
+        try:
+            conn= self.get_db_connection()
+            cursor= conn.cursor()
+            cursor.execute("""
+                    SELECT id, full_name, email FROM member WHERE email LIKE %s;
+                           """, (f"%{email}%",))
+            result= cursor.fetchall()
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            if result is None:
+                return None
+            member_lst= []
+            for row in result:
+                member_lst.append({"id":row[0], "name":row[1], "email":row[2]})
+            return member_lst
+        except Exception as e:
+            raise e
+        
+    
     def check_member(self, id, full_name, email):
         try:
             if id is None:
@@ -133,11 +175,6 @@ class QueryMember:
             cursor.execute("SELECT id, full_name, email, face_embedding FROM member")
             cursor.fetchall()
 
-            # for row in rows:
-            #     if row[3] is not None:
-            #         print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- face_embbedding {True}")
-            #     else:
-            #         print(f"id: {row[0]} - name: {row[1]} - email: {row[2]}- face_embedding {False}")
             cursor.close()
             conn.close()
         except Exception as e:
@@ -156,3 +193,12 @@ class QueryMember:
             conn.close()
         except Exception as e:
             raise e
+        
+if __name__ == "__main__":
+    query= QueryMember()
+    
+    # rs= query.search_by_name("ngoc")
+    rs= query.search_by_email("ngoc")
+    for el in rs:
+        print(el)
+    
