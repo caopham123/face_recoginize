@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from datetime import datetime
 
 class MemberRegister(BaseModel):
     email: str = Field(examples="test@gmail.com")
@@ -37,4 +38,13 @@ class MemberChecking(BaseModel):
         json_schema_extra = {
             "email": "test@gmail.com",
             "name": "test name",
+        }
+
+class TimeChecking(BaseModel):
+    begin_time: datetime= Field(examples="YYYY-MM-DD")
+    end_time: datetime= Field(examples="YYYY-MM-DD")
+    class Config:
+        json_schema_extra= {
+            "begin_time": "2021-09-02",
+            "end_time": "2021-09-02",
         }

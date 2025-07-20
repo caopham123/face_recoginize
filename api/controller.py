@@ -1,6 +1,6 @@
 from fastapi.responses import JSONResponse
 from fastapi import status, APIRouter
-from api.schema import MemberRegister, MemberUpdate, Image
+from api.schema import MemberRegister, MemberUpdate, Image, TimeChecking
 from api.helpers.commons import stringToRGB
 from api.services.check_member_service import *
 from api.config.valid_credential import VALID_CLIENTS
@@ -43,6 +43,10 @@ async def get_by_name(name:str):
 @router.get("/member/{email}")
 async def get_by_email(email:str):
     return search_member_by_email(email)
+
+@router.get("/checking_event/")
+async def filter_by_time(timer: TimeChecking):
+    return search_member_by_time(timer.begin_time, timer.end_time)
 
 
 @router.post("/check_user")

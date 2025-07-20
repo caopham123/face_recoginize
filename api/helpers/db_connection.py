@@ -1,5 +1,6 @@
 import psycopg2
 import numpy as np
+from datetime import datetime
 
 DB_NAME = "db_employee"
 DB_USER = "postgres"
@@ -151,7 +152,28 @@ class QueryMember:
         except Exception as e:
             raise e
         
-    
+    def search_event_by_time(self, start_time: datetime, end_time:datetime):
+        try:
+            conn= self.get_db_connection()
+            cursor= conn.cursor()
+            cursor.execute("""
+                    SELECT id, full_name, email, time_checking FROM checking_event 
+                    WHERE time_checking BETWEEN %s AND %s;
+                           """, (f"{start_time}",f"{end_time}"))
+            result= cursor.fetchall()
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            if result is None:
+                return None
+            event_lst= []
+            for row in result:
+                event_lst.append({"id":row[0], "name":row[1], "email":row[2], "time_checking":str(row[3])})
+            return event_lst
+        except Exception as e:
+            raise e
+
     def check_member(self, id, full_name, email):
         try:
             if id is None:
@@ -198,7 +220,9 @@ if __name__ == "__main__":
     query= QueryMember()
     
     # rs= query.search_by_name("ngoc")
-    rs= query.search_by_email("ngoc")
+    # rs= query.search_by_email("ngoc")
+    rs= query.search_event_by_time("2025-07-11 12:00", "2025-07-15")
     for el in rs:
         print(el)
+    
     
